@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import header from './css/header.css'
 import {BsSearch} from 'react-icons/bs'
 import {BiMap, BiPhone, BiUser} from 'react-icons/bi'
 import {GrCart} from 'react-icons/gr'
 import CategoryDropdown from './CategoryDropdown'
 import { Link, useLocation } from 'react-router-dom'
+import ParentCategoryService from '../services/ParentCateogry/ParentCategoryService'
 const Header = () => {
   const navItem = [
     {
@@ -75,6 +76,14 @@ const Header = () => {
       display: "Đồng phục"
     }
   ]
+  const [parentCategory, setParentCategory] = useState([]);
+  useEffect(()=>{
+    ParentCategoryService.getAllParentCatgory().then((res) =>{
+      setParentCategory(res.data)
+    }).catch(e =>{
+      console.log(e);
+    })
+  }, [])
   const  pathName  = useLocation();
   const activeNav = navItem.findIndex(e => e.path === pathName.pathname)
   const headerRef = useRef(null)
