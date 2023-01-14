@@ -7,75 +7,6 @@ import CategoryDropdown from './CategoryDropdown'
 import { Link, useLocation } from 'react-router-dom'
 import ParentCategoryService from '../services/ParentCateogry/ParentCategoryService'
 const Header = () => {
-  const navItem = [
-    {
-      id: 0,
-      subCategory: false,
-      category: [],
-      path: "/product/0",
-      display: "Flash Sale"
-    },
-    {
-      id: 1,
-      subCategory: true,
-      path:"/product/1",
-      display: "Nam",
-      category:[
-        {
-          id: 1,
-          nameCategory:"Quần nam",
-        },
-        {
-          id: 2,
-          nameCategory:"Áo nam"
-        },
-        {
-          id: 3,
-          nameCategory:"Áo khoác nam"
-        },
-        {
-          id: 4,
-          nameCategory:"Áo sơ mi nam"
-        }
-      ]
-    },
-    {
-      id: 2,
-      subCategory: true,
-      display: "Nữ",
-      path: "/product/2",
-      category:[
-        {
-          id: 1,
-          nameCategory:"Quần nữ"
-        },
-        {
-          id: 2,
-          nameCategory:"Áo nữ"
-        },
-        {
-          id: 3,
-          nameCategory:"Áo khoác nữ"
-        },
-        {
-          id: 4,
-          nameCategory:"Áo sơ mi nữ"
-        }
-      ]
-    },
-    {
-      id: 3,
-      subCategory: false,
-      path: "/product/3",
-      display: "Trẻ em"
-    },
-    {
-      id: 4,
-      subCategory: false,
-      path: "/product/4",
-      display: "Đồng phục"
-    }
-  ]
   const [parentCategory, setParentCategory] = useState([]);
   useEffect(()=>{
     ParentCategoryService.getAllParentCatgory().then((res) =>{
@@ -85,7 +16,7 @@ const Header = () => {
     })
   }, [])
   const  pathName  = useLocation();
-  const activeNav = navItem.findIndex(e => e.path === pathName.pathname)
+  const activeNav = parentCategory.findIndex(e => e.path === pathName.pathname)
   const headerRef = useRef(null)
   useEffect(()=>{
     window.addEventListener("scroll",() => {
@@ -99,7 +30,6 @@ const Header = () => {
       window.removeEventListener("scroll")
     }
   },[])
-  console.log(activeNav);
   return (
     <div className='header' ref={headerRef}>
         <div className='banner-top'>
@@ -138,11 +68,11 @@ const Header = () => {
               <div className="topbar-bottom-left">
                 <nav className='nav-item'>
                   <div className='nav-item-1'>
-                    {navItem.map((item) =>{
+                    {parentCategory.map((item) =>{
                       return(
-                        <Link to={`${item.path}`} className={`item ${item.id === activeNav ? 'active' : ''}`} key={item.id}>{item.display}
+                        <Link to={`/category/${item.id}`} className={`item ${item.id === activeNav ? 'active' : ''}`} key={item.id}>{item.nameParentCategory}
                             {
-                              item.subCategory && <CategoryDropdown subCategory = {item.category}/>
+                              item.subCategory && <CategoryDropdown subCategory = {item.categoryList}/>
                             }
                         </Link>
                       )

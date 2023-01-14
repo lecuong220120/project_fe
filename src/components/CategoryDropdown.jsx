@@ -9,7 +9,7 @@ const CategoryDropdown = ({subCategory}) => {
                 subCategory.map((item)=> {
                     return (
                         <Link key={item.id} className='sub-item' to={`/category/${item.id}`}>
-                            {item.nameCategory} 
+                            {item.categoryName} 
                         </Link>
                     
                     )
